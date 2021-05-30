@@ -2,6 +2,7 @@ package com.projectNanuram.entity;
 
 public enum NumberType {
 
-    HOME , SHOP;
+    HOME , SHOP , NONE;
+
 
 }

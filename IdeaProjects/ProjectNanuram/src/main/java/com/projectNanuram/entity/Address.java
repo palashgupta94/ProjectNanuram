@@ -5,29 +5,66 @@ import javax.persistence.*;
 @Entity
 public class Address {
 
+    private static final String COLUMN_Name = "familyId";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private String firstName;
+    private String lastName;
+    private AddressType addressType;
     private String address1;
     private String address2;
     private String city;
     private String district;
     private String state;
     private int pinCode;
+    private String country;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Family family;
+    @ManyToOne
+    @JoinColumn(name = COLUMN_Name)
+    private Family fk_family;
 
     public Address() {
     }
 
-    public Address(String address1, String address2, String city, String district, String state, int pinCode) {
+    public Address(String firstName , String lastName , AddressType addressType , String address1, String address2, String city, String district, String state, int pinCode , String country) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addressType = addressType;
         this.address1 = address1;
         this.address2 = address2;
         this.city = city;
         this.district = district;
         this.state = state;
         this.pinCode = pinCode;
+        this.country = country;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress1() {
@@ -79,10 +116,18 @@ public class Address {
     }
 
     public Family getFamily() {
-        return family;
+        return fk_family;
     }
 
-    public void setFamily(Family family) {
-        this.family = family;
+    public void setFamily(Family fk_family) {
+        this.fk_family = fk_family;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

@@ -1,10 +1,11 @@
 package com.projectNanuram.entity;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,61 +14,107 @@ import java.util.List;
 
 public class Person {
 
+    private static final String COLUMN_Name = "familyId";
+
     @Id
     private String personId;
-    @NotNull
+
+
+    @NotBlank(message = "First name could not be empty or null")
     private String firstName;
-    @NotNull
+
+    @Nullable
+    private String middleName;
+
+
+    @NotNull(message = "Second name could not be empty or null")
     private String lastName;
-    @NotNull
+
+
+    @NotNull(message = "Status could not be empty or null")
     private String status;
-    @NotNull
+
+
+    @NotNull(message = "Relation could not be empty or null")
     private String relationWithHead;
-    @NotNull
-    private String Gender;
-    @NotNull
+
+
+    @NotNull(message = "Gender could not be empty or null")
+    private String gender;
+
+
+    @Past (message = "Date of birth could not be empty or null")
     private String DOB;
-    @NotNull
+
+
+    @NotNull(message = "Age could not be empty or null")
+
     private int age;
+
     @Nullable
     private String familyGotra;
+
     @Nullable
     private String motherGotra;
-    @NotNull
+
+
+    @NotNull(message = "Education could not be empty or null")
     private String educationalStatus;
-    @NotNull
+
+
+    @NotNull(message = "Occupation could not be empty or null")
     private String occupation;
-//    private String contactNumber;
-    @Nullable
+
+
     private String imgUrl;
-    private boolean isMarried;
-    private boolean isSpeciallyAbled;
+
+
+    @NotNull(message = "Marital Status could not be empty or null")
+    private String maritalStatus;
+
+    @Nullable
+    @AssertFalse()
+    private boolean isSpeciallyAble;
+
+    @NotNull
+    @Value("No")
+    private String specialAbility;
+    
     private boolean isMan;
     private boolean isWoman;
     private boolean isGirl;
     private boolean isBoy;
     private boolean isSenior;
 
-    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @OneToMany (cascade = CascadeType.ALL , fetch = FetchType.LAZY, mappedBy = "person")
     private List<MobileNumbers> mobileNumbers = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL )
+    @JoinColumn(name = COLUMN_Name)
+//    @NotNull
     private Family family;
 
     public Person() {
     }
 
-    public Person(String personId, @NotNull String firstName, @NotNull String lastName, @NotNull String status,
-                  @NotNull String relationWithHead, @NotNull String gender, @NotNull String DOB,
-                  @NotNull int age, @Nullable String familyGotra, @Nullable String motherGotra, @NotNull String educationalStatus,
-                  @NotNull String occupation, @Nullable String imgUrl, boolean isMarried,
-                  boolean isSpeciallyAbled, List<MobileNumbers> mobileNumbers, Family family) {
-        this.personId = personId;
+    public Person(@NotNull(message = "First name could not be empty or null") String firstName,
+                  @Nullable String middleName,
+                  @NotNull(message = "Second name could not be empty or null") String lastName,
+                  @NotNull(message = "Status could not be empty or null") String status,
+                  @NotNull(message = "Relation could not be empty or null") String relationWithHead,
+                  @NotNull(message = "Gender could not be empty or null") String gender,
+                  @Past(message = "Date of birth could not be empty or null") String DOB, @NotNull int age,
+                  @Nullable String familyGotra, @Nullable String motherGotra,
+                  @NotNull(message = "Education could not be empty or null") String educationalStatus,
+                  @NotNull(message = "Occupation could not be empty or null") String occupation, String imgUrl,
+                  @NotNull(message = "Marital Status could not be empty or null") String maritalStatus,
+                   boolean isSpeciallyAble) {
         this.firstName = firstName;
+        this.middleName = middleName;
         this.lastName = lastName;
         this.status = status;
         this.relationWithHead = relationWithHead;
-        Gender = gender;
+        this.gender = gender;
         this.DOB = DOB;
         this.age = age;
         this.familyGotra = familyGotra;
@@ -75,10 +122,9 @@ public class Person {
         this.educationalStatus = educationalStatus;
         this.occupation = occupation;
         this.imgUrl = imgUrl;
-        this.isMarried = isMarried;
-        this.isSpeciallyAbled = isSpeciallyAbled;
-        this.mobileNumbers = mobileNumbers;
-        this.family = family;
+        this.maritalStatus = maritalStatus;
+        this.isSpeciallyAble = isSpeciallyAble;
+
     }
 
     public String getPersonId() {
@@ -95,6 +141,15 @@ public class Person {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Nullable
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(@Nullable String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
@@ -122,11 +177,11 @@ public class Person {
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
     public void setGender(String gender) {
-        Gender = gender;
+        this.gender = gender;
     }
 
     public String getDOB() {
@@ -179,29 +234,36 @@ public class Person {
         this.occupation = occupation;
     }
 
-    @Nullable
     public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(@Nullable String imgUrl) {
+    public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 
-    public boolean isMarried() {
-        return isMarried;
+    public String getMaritalStatus() {
+        return maritalStatus;
     }
 
-    public void setMarried(boolean married) {
-        isMarried = married;
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 
-    public boolean isSpeciallyAbled() {
-        return isSpeciallyAbled;
+    public boolean isSpeciallyAble() {
+        return isSpeciallyAble;
     }
 
-    public void setSpeciallyAbled(boolean speciallyAbled) {
-        isSpeciallyAbled = speciallyAbled;
+    public void setSpeciallyAble(boolean speciallyAble) {
+        isSpeciallyAble = speciallyAble;
+    }
+
+    public String getSpecialAbility() {
+        return specialAbility;
+    }
+
+    public void setSpecialAbility(String specialAbility) {
+        this.specialAbility = specialAbility;
     }
 
     public boolean isMan() {
@@ -258,5 +320,35 @@ public class Person {
 
     public void setFamily(Family family) {
         this.family = family;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personId='" + personId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", status='" + status + '\'' +
+                ", relationWithHead='" + relationWithHead + '\'' +
+                ", gender='" + gender + '\'' +
+                ", DOB='" + DOB + '\'' +
+                ", age=" + age +
+                ", familyGotra='" + familyGotra + '\'' +
+                ", motherGotra='" + motherGotra + '\'' +
+                ", educationalStatus='" + educationalStatus + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", maritalStatus='" + maritalStatus + '\'' +
+                ", isSpeciallyAble=" + isSpeciallyAble +
+                ", specialAbility='" + specialAbility + '\'' +
+                ", isMan=" + isMan +
+                ", isWoman=" + isWoman +
+                ", isGirl=" + isGirl +
+                ", isBoy=" + isBoy +
+                ", isSenior=" + isSenior +
+                ", mobileNumbers=" + mobileNumbers +
+                ", family=" + family +
+                '}';
     }
 }

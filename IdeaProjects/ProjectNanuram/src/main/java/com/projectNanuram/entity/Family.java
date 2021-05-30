@@ -1,6 +1,9 @@
 package com.projectNanuram.entity;
 
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,27 +12,30 @@ import java.util.List;
 public class Family {
 
     @Id
-    private int familyId;
+    @NotNull
+    private String familyId;
+
     private int totalMembers;
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER , mappedBy = "family")
     private List<Person> members = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY , mappedBy = "fk_family")
     private List<Address> addresses = new ArrayList<>();
 
     public Family(){}
 
-    public Family(int familyId, int totalMembers, List<Person> member) {
+    public Family(String familyId) {
         this.familyId = familyId;
-        this.totalMembers = totalMembers;
-        this.members = member;
+//        this.totalMembers = totalMembers;
+//        this.members = member;
     }
 
-    public int getFamilyId() {
+    public String getFamilyId() {
         return familyId;
     }
 
-    public void setFamilyId(int familyId) {
+    public void setFamilyId(String familyId) {
         this.familyId = familyId;
     }
 
@@ -47,6 +53,14 @@ public class Family {
 
     public void setMember(List<Person> members) {
         this.members = members;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     @Override

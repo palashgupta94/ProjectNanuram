@@ -1,23 +1,47 @@
 package com.projectNanuram.helper;
 
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 public class IdentityHelper {
 
-    public String getPersonId(String id , int num){
+    static Set<String> personIdSet = new TreeSet<>();
+    static Set<String> familyIdSet = new TreeSet<>();
 
-        String familyId = id;
-        String str = familyId+"_"+num;
-        return str;
+    static int personCount = 5;
+    static int familyCount = 5;
+    static boolean letters = true;
+    static boolean numbers = true;
+
+    public static String personIdGenerator(){
+
+        String personId = RandomStringUtils.random(personCount , letters , numbers);
+
+        if(personIdSet.contains(personId)){
+            personIdGenerator();
+        }
+        else{
+            personIdSet.add(personId);
+
+        }
+        return personId;
     }
 
-    public String getFamilyId(String cityCode){
+    public static String familyIdGenerator(){
 
-        Random random = new Random();
-        int randomNumber = random.nextInt(6);
-        String familyId = cityCode+"_"+randomNumber;
+        String familyId = RandomStringUtils.random(familyCount , letters , numbers);
+
+        if(familyIdSet.contains(familyId)){
+            familyIdGenerator();
+        }
+        else{
+            familyIdSet.add(familyId);
+        }
+
         return familyId;
     }
+
 }

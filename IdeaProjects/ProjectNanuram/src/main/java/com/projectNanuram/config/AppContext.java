@@ -1,10 +1,7 @@
 package com.projectNanuram.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -24,16 +21,18 @@ public class AppContext {
     @Autowired
     private Environment environment;
 
+
     @Bean
     public LocalSessionFactoryBean factoryBean(){
-        LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-        bean.setDataSource(dataSource());
-        bean.setPackagesToScan("com.projectNanuram..entity");
-        bean.setHibernateProperties(hibernateProperties());
+        LocalSessionFactoryBean sessionBean = new LocalSessionFactoryBean();
+        sessionBean.setDataSource(dataSource());
+        sessionBean.setPackagesToScan("com.projectNanuram.entity");
+        sessionBean.setHibernateProperties(hibernateProperties());
 
 
-        return bean;
+        return sessionBean;
     }
+
 
 
     @Bean
@@ -64,10 +63,11 @@ public class AppContext {
         properties.put("C3P0_ACQUIRE_INCREMENT" , environment.getRequiredProperty("C3P0_ACQUIRE_INCREMENT"));
         properties.put("C3P0_TIMEOUT" , environment.getRequiredProperty("C3P0_TIMEOUT"));
         properties.put("C3P0_MAX_STATEMENTS" , environment.getRequiredProperty("C3P0_MAX_STATEMENTS"));
-//        properties.put("C3P0_INITIAL_POOL_SIZE" , environment.getRequiredProperty("C3P0_INITIAL_POOL_SIZE"));
+        properties.put("C3P0_INITIAL_POOL_SIZE" , environment.getRequiredProperty("C3P0_INITIAL_POOL_SIZE"));
 
         return properties;
     }
+
 
     @Bean
     public HibernateTransactionManager getTransactionManager(){

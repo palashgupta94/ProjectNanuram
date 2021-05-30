@@ -18,7 +18,11 @@ public interface FamilyDao {
 
     public List<Address> getFamilyAddress(String familyId);
 
+//    public Family getFamilyByAddress(String address1);
+
     public Family getFamilyByAddress(Address address);
+
+    public List<Family> getFamilyByAddress(String city);
 
     public Family getFamilyDetails(String personId);
 
@@ -28,6 +32,6 @@ public interface FamilyDao {
 
     public Family updateFamilyDetails(String familyId);
 
-    public void deleteFamily(String familyId);
+    public void deleteFamily(String  familyId);
 
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class MobileNumbers {
+    private static final String COLUMN_Name = "personId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,12 +20,24 @@ public class MobileNumbers {
     private NumberType type;
     @NotNull
     private boolean isPrimary;
+    @Transient
+    @NotNull
+    private String primaryString;
 
     @ManyToOne
+    @JoinColumn(name = COLUMN_Name)
     private Person person;
+
+
     //No arg constructor
     public MobileNumbers() {
 
+    }
+
+    public MobileNumbers(@Nullable String mobileNumber, NumberType type, @NotNull boolean isPrimary) {
+        this.mobileNumber = mobileNumber;
+        this.type = type;
+        this.isPrimary = isPrimary;
     }
 
     public String getMobileNumber() {
@@ -58,4 +71,24 @@ public class MobileNumbers {
     public void setPerson(Person person) {
         this.person = person;
     }
+
+    public String getPrimaryString() {
+        return primaryString;
+    }
+
+    public void setPrimaryString(String primaryString) {
+        this.primaryString = primaryString;
+    }
+
+    @Override
+    public String toString() {
+        return "MobileNumbers{" +
+                "id=" + id +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", type=" + type +
+                ", isPrimary=" + isPrimary +
+                ", person=" + person +
+                '}';
+    }
 }
+

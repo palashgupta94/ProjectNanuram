@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FamilyService {
 
-    Family getFamilyDetails();
+//    Family getFamilyDetails();
 
     public List<Family> getAllFamilyDetails();
 
