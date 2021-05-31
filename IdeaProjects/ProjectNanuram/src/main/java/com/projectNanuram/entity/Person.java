@@ -43,7 +43,7 @@ public class Person {
     private String gender;
 
 
-    @Past (message = "Date of birth could not be empty or null")
+    @NotNull (message = "Date of birth could not be empty or null")
     private String DOB;
 
 
@@ -88,7 +88,7 @@ public class Person {
 
     @OneToMany (cascade = CascadeType.ALL , fetch = FetchType.LAZY, mappedBy = "person")
     private List<MobileNumbers> mobileNumbers = new ArrayList<>();
-
+    
     @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL )
     @JoinColumn(name = COLUMN_Name)
 //    @NotNull

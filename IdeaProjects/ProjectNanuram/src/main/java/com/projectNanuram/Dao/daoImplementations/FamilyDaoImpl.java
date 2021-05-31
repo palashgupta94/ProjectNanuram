@@ -47,7 +47,7 @@ public class FamilyDaoImpl implements FamilyDao {
 //    @Transactional
     public int getTotalMemberCount(String familyId) {
         Session session = sessionFactory.getCurrentSession();
-        var queryString = "select f.totalMembers from Family as f where f.id  = :familyId";
+        String queryString = "select f.totalMembers from Family as f where f.id  = :familyId";
         Query query = session.createQuery(queryString);
         int result = (int)query.getFirstResult();
         return result;

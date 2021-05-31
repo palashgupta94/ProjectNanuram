@@ -7,7 +7,9 @@
     import com.projectNanuram.helper.IdentityHelper;
     import com.projectNanuram.helper.ReferenceHelper;
     import com.projectNanuram.helper.RowHelper;
-    import org.springframework.beans.factory.annotation.Autowired;
+import com.projectNanuram.service.FamilyService;
+
+import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.validation.BindingResult;
@@ -21,7 +23,8 @@
     import javax.validation.Valid;
 
     import java.text.ParseException;
-    import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 
     @Controller
@@ -33,6 +36,9 @@
 
         @Autowired
         private FamilyDao familyDao;
+        
+        @Autowired
+        private FamilyService familyService;
 
         @Autowired
         private Family family;
@@ -100,8 +106,17 @@
                         person.setFamily(family);
 
                         List<MobileNumbers> mobileNumbersList = person.getMobileNumbers();
-                        if(!mobileNumbersList.isEmpty()) {
-                            for (MobileNumbers mobileNumbers : mobileNumbersList) {
+                        List<MobileNumbers> newlist = new ArrayList<>();
+                        for (MobileNumbers number : mobileNumbersList) {
+                        	if (number.getMobileNumber()!=null && !number.getMobileNumber().isEmpty()) {
+                        		newlist.add(number);
+                        	}
+                        }
+                        if (!newlist.isEmpty()) {
+                        	person.setMobileNumbers(newlist);
+                        }
+                        if(!newlist.isEmpty()) {
+                            for (MobileNumbers mobileNumbers : newlist) {
                                 mobileNumbers.setPerson(person);
                             }
                         }
@@ -114,7 +129,7 @@
                             family.getAddresses().add(address);
                         }
                     }
-                    familyDao.saveFamily(family);
+                    familyService.saveFamily(family);
                 } catch (ParseException e) {
                 e.printStackTrace();
             }
