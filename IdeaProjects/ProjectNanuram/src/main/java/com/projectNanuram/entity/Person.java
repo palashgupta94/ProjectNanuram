@@ -43,7 +43,7 @@ public class Person {
     private String gender;
 
 
-    @NotNull (message = "Date of birth could not be empty or null")
+//    @Past (message = "Date of birth could not be empty or null")
     private String DOB;
 
 
@@ -85,10 +85,11 @@ public class Person {
     private boolean isGirl;
     private boolean isBoy;
     private boolean isSenior;
+    private boolean isHead=false;
 
     @OneToMany (cascade = CascadeType.ALL , fetch = FetchType.LAZY, mappedBy = "person")
     private List<MobileNumbers> mobileNumbers = new ArrayList<>();
-    
+
     @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL )
     @JoinColumn(name = COLUMN_Name)
 //    @NotNull
@@ -108,7 +109,8 @@ public class Person {
                   @NotNull(message = "Education could not be empty or null") String educationalStatus,
                   @NotNull(message = "Occupation could not be empty or null") String occupation, String imgUrl,
                   @NotNull(message = "Marital Status could not be empty or null") String maritalStatus,
-                   boolean isSpeciallyAble) {
+                   boolean isSpeciallyAble ,
+                   boolean isHead) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -124,7 +126,7 @@ public class Person {
         this.imgUrl = imgUrl;
         this.maritalStatus = maritalStatus;
         this.isSpeciallyAble = isSpeciallyAble;
-
+        this.isHead = isHead;
     }
 
     public String getPersonId() {
@@ -322,6 +324,14 @@ public class Person {
         this.family = family;
     }
 
+    public boolean isHead() {
+        return isHead;
+    }
+
+    public void setHead(boolean head) {
+        isHead = head;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -347,6 +357,7 @@ public class Person {
                 ", isGirl=" + isGirl +
                 ", isBoy=" + isBoy +
                 ", isSenior=" + isSenior +
+                "' isHead=" + isHead +
                 ", mobileNumbers=" + mobileNumbers +
                 ", family=" + family +
                 '}';

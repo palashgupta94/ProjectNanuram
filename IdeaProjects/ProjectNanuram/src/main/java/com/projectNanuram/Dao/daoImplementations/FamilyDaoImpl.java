@@ -39,6 +39,7 @@ public class FamilyDaoImpl implements FamilyDao {
     public Family getFamilyById(String familyId) {
 
         Session session = sessionFactory.getCurrentSession();
+//        Family family = session.byId(Family.class).load(familyId);
         Family family = session.byId(Family.class).load(familyId);
         return family;
     }
@@ -47,7 +48,7 @@ public class FamilyDaoImpl implements FamilyDao {
 //    @Transactional
     public int getTotalMemberCount(String familyId) {
         Session session = sessionFactory.getCurrentSession();
-        String queryString = "select f.totalMembers from Family as f where f.id  = :familyId";
+        String queryString = "select f.totalMembers from Family as f where f.id  = :familyId";  //working
         Query query = session.createQuery(queryString);
         int result = (int)query.getFirstResult();
         return result;
@@ -58,7 +59,7 @@ public class FamilyDaoImpl implements FamilyDao {
 //    @Transactional
     public List<Person> getMembersDetails(String familyId) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "select p from Person p where Person.family.familyId= :familyId" ;
+        String hql = "select p from Person p where p.family.familyId= :familyId" ; //working
         Query query = session.createQuery(hql);
         List<Person> members = query.getResultList();
         return members;
@@ -68,7 +69,7 @@ public class FamilyDaoImpl implements FamilyDao {
 //    @Transactional
     public List<Address> getFamilyAddress(String familyId) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "from Address ad where Family.familyId = :familyId";
+        String hql = "from Address as ad where ad.familyAd.familyId=:familyId"; //working
         Query query = session.createQuery(hql);
         List<Address> addresses = query.getResultList();
         return addresses;
@@ -79,7 +80,7 @@ public class FamilyDaoImpl implements FamilyDao {
     public List<Family> getFamilyByAddress(String city) {
 
         Session session = sessionFactory.getCurrentSession();
-        String hql = "select Family as f from Address where Address.city =:city";
+        String hql = "select f from Family as f where f.familyId=(select ad.familyAd.familyId from Address as ad where city=:city)";
         Query query = session.createQuery(hql);
         List<Family> families = query.getResultList();
         return families;
@@ -87,7 +88,11 @@ public class FamilyDaoImpl implements FamilyDao {
 
     public Family getFamilyByAddress(Address address){
 
-       return null;
+       Session session = sessionFactory.getCurrentSession();
+       String hql = "";
+       Query query = session.createQuery(hql);
+       Family family = (Family) query.getSingleResult();
+       return family;
     }
 
     @Override
@@ -107,13 +112,20 @@ public class FamilyDaoImpl implements FamilyDao {
 
 //        if(family != null) System.out.println(family);
 
-        try{
-            Session session = sessionFactory.getCurrentSession();
-            session.saveOrUpdate(family);
-        }catch (HibernateException he){
-            Session session = sessionFactory.openSession();
-            session.saveOrUpdate(family);
-        }
+//        try{
+//            Session session = sessionFactory.getCurrentSession();
+//            session.saveOrUpdate(family);
+//        }catch (HibernateException he){
+//            Session session = sessionFactory.openSession();
+//            session.saveOrUpdate(family);
+//        }
+
+//        finally{
+////            sessionFactory.close();
+//        }
+
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(family);
     }
 
     @Override

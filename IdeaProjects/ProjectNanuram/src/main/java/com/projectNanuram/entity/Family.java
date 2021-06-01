@@ -20,7 +20,7 @@ public class Family {
     @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER , mappedBy = "family")
     private List<Person> members = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY , mappedBy = "fk_family")
+    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY , mappedBy = "familyAd")
     private List<Address> addresses = new ArrayList<>();
 
     public Family(){}

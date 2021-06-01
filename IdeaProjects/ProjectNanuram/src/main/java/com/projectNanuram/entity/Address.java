@@ -24,7 +24,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = COLUMN_Name)
-    private Family fk_family;
+    private Family familyAd;
 
     public Address() {
     }
@@ -116,11 +116,11 @@ public class Address {
     }
 
     public Family getFamily() {
-        return fk_family;
+        return familyAd;
     }
 
-    public void setFamily(Family fk_family) {
-        this.fk_family = fk_family;
+    public void setFamily(Family familyAd) {
+        this.familyAd = familyAd;
     }
 
     public String getCountry() {

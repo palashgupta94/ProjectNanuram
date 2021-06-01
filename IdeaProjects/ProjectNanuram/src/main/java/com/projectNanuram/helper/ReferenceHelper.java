@@ -270,6 +270,8 @@ public class ReferenceHelper {
         Map<String , NumberType> typeMap  = new HashMap<>();
         typeMap.put("HOME" , NumberType.valueOf("HOME"));
         typeMap.put("SHOP" , NumberType.valueOf("SHOP"));
+        typeMap.put("OTHER" , NumberType.valueOf("OTHER"));
+        typeMap.put("PERSONAL" , NumberType.valueOf("PERSONAL"));
         typeMap.put("NONE" , NumberType.valueOf("NONE"));
 
 //        ///////////////////////////////////////////////

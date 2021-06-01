@@ -11,8 +11,7 @@ public class MobileNumbers {
     private static final String COLUMN_Name = "personId";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
     @Column(name = "mobile_number" , unique = true)
     @Nullable
     private String mobileNumber;
@@ -34,10 +33,19 @@ public class MobileNumbers {
 
     }
 
-    public MobileNumbers(@Nullable String mobileNumber, NumberType type, @NotNull boolean isPrimary) {
+    public MobileNumbers(String id , @Nullable String mobileNumber, NumberType type, @NotNull boolean isPrimary) {
+       this.id = id;
         this.mobileNumber = mobileNumber;
         this.type = type;
         this.isPrimary = isPrimary;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMobileNumber() {
